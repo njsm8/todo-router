@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { auth } from "./config/firebaseconfig";
+import HomePage from "./HomePage";
 import Login from "./Login";
 import Navbar from "./Navbar";
 import SignUp from "./SignUp";
@@ -34,7 +35,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            <div>{auth.authUser}</div>
+            <HomePage />
           </Route>
           <Route exact path="/todo">
             <TodoHome />
