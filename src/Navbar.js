@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, withTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import { useStateValue } from "./stateProvider";
+import { UserContext } from "./stateProvider";
+import { auth } from "./config/firebaseconfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,28 +22,44 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const user = useStateValue();
+  const user = useContext(UserContext);
 
-  console.log(user);
+  const handleAuthenticaton = () => {
+    if (user) {
+      auth.signOut();
+    }
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Link to="/">
-            <Typography variant="" className={classes.title}>
+            <Typography variant="h5" className={classes.title}>
               Todo App
             </Typography>
           </Link>
-
-          <Link to="/login">
-            <Button color="inherit">Login</Button>
-          </Link>
-          <Link to="/signup">
-            <Button color="inherit">SignUp</Button>
-          </Link>
-          <Link to="/todo">
-            <Button color="inherit">Todo</Button>
-          </Link>
+          <div>
+            {user ? (
+              <>
+                <Button onClick={handleAuthenticaton} color="inherit">
+                  Logout
+                </Button>
+                <Link to="/todo">
+                  <Button color="inherit">Todo</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button color="inherit">Login</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button color="inherit">SignUp</Button>
+                </Link>
+              </>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

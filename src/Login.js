@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
 
     auth
-      .signInWithEmailandPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then((auth) => {
         history.push("/todo");
       })

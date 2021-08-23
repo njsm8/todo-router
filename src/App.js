@@ -1,52 +1,46 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { auth } from "./config/firebaseconfig";
 import HomePage from "./HomePage";
 import Login from "./Login";
 import Navbar from "./Navbar";
 import SignUp from "./SignUp";
-import { useStateValue } from "./stateProvider";
 import TodoHome from "./TodoHome";
+import { UserContext } from "./stateProvider";
 
 function App() {
-  const dispatch = useStateValue();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      console.log("THE USER IS >>>", authUser);
-
       if (authUser) {
-        dispatch({
-          type: "SET_USER",
-          user: authUser,
-        });
+        setUser(authUser.email);
+        console.log("The user is ", authUser.email);
       } else {
-        dispatch({
-          type: "SET_USER",
-          user: null,
-        });
+        setUser(null);
       }
     });
   }, []);
-
   return (
     <div>
       <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-          <Route exact path="/todo">
-            <TodoHome />
-          </Route>
-          <Route exact path="/signup">
-            <SignUp />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-        </Switch>
+        <UserContext.Provider value={user}>
+          <Navbar />
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route exact path="/todo">
+              <TodoHome />
+            </Route>
+            <Route exact path="/signup">
+              <SignUp />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </UserContext.Provider>
       </Router>
     </div>
   );
