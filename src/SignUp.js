@@ -24,7 +24,7 @@ function SignUp() {
         .then((auth) => {
           console.log(auth);
           if (auth) {
-            history.push("/todo");
+            history.push("/");
           }
         })
         .catch((error) => alert(error.message));
