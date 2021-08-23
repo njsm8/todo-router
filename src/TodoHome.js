@@ -16,7 +16,7 @@ function TodoHome() {
   }, [todoInput]);
 
   function getTodo() {
-    db.collection("todos").onSnapshot(function (querySnapshot) {
+    db.collection(user).onSnapshot(function (querySnapshot) {
       settodos(
         querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -30,7 +30,7 @@ function TodoHome() {
   const addTodo = (e) => {
     e.preventDefault();
 
-    db.collection("todos").add({
+    db.collection(user).add({
       inprogress: true,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       todo: todoInput,

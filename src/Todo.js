@@ -1,17 +1,20 @@
 import { Button, ListItem, ListItemText } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { db } from "./config/firebaseconfig";
+import { UserContext } from "./stateProvider";
 
 export default function TodoListItem({ todo, inprogress, id }) {
+  const user = useContext(UserContext);
+
   function toggleInProgress() {
-    db.collection("todos").doc(id).update({
+    db.collection(user).doc(id).update({
       inprogress: !inprogress,
     });
   }
 
   function deleteTodo() {
-    db.collection("todos").doc(id).delete();
+    db.collection(user).doc(id).delete();
   }
 
   return (
