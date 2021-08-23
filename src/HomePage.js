@@ -7,7 +7,7 @@ function HomePage() {
   const user = useContext(UserContext);
   return (
     <div>
-      <h1>Welcome {user}</h1>
+      <h1>Welcome {user ? user : "Guest"}</h1>
       {!user ? (
         <div>
           <Link to="/login">

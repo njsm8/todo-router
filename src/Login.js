@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "./config/firebaseconfig";
+import { UserContext } from "./stateProvider";
 
 function Login() {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const user = useContext(UserContext);
 
   const signIn = (e) => {
     e.preventDefault();
@@ -20,33 +22,37 @@ function Login() {
 
   return (
     <div className="login">
-      <div className="login__container">
-        <h1>Login</h1>
+      {user ? (
+        `You have already been logged in as ${user}`
+      ) : (
+        <div className="login__container">
+          <h1>Login</h1>
 
-        <form>
-          <h5>E-mail</h5>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <form>
+            <h5>E-mail</h5>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          <h5>Password</h5>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <h5>Password</h5>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <button
-            type="submit"
-            onClick={signIn}
-            className="login__signInButton"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+            <button
+              type="submit"
+              onClick={signIn}
+              className="login__signInButton"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

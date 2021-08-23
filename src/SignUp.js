@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "./config/firebaseconfig";
+import { UserContext } from "./stateProvider";
 
 import "./Login.css";
 
@@ -9,6 +10,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setcheckPassword] = useState("");
+  const user = useContext(UserContext);
 
   const register = (e) => {
     e.preventDefault();
@@ -31,36 +33,40 @@ function SignUp() {
 
   return (
     <div className="login">
-      <div className="login__container">
-        <h1>Sign Up</h1>
+      {user ? (
+        `You have already been logged in as ${user}`
+      ) : (
+        <div className="login__container">
+          <h1>Sign Up</h1>
 
-        <form>
-          <h5>E-mail</h5>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <form>
+            <h5>E-mail</h5>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          <h5>Password</h5>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <h5>Re-enter Password</h5>
-          <input
-            type="password"
-            value={checkPassword}
-            onChange={(e) => setcheckPassword(e.target.value)}
-          />
+            <h5>Password</h5>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <h5>Re-enter Password</h5>
+            <input
+              type="password"
+              value={checkPassword}
+              onChange={(e) => setcheckPassword(e.target.value)}
+            />
 
-          <button className="login__registerButton" onClick={register}>
-            {" "}
-            Create your account
-          </button>
-        </form>
-      </div>
+            <button className="login__registerButton" onClick={register}>
+              {" "}
+              Create your account
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
