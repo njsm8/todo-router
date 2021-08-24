@@ -1,27 +1,10 @@
 import React, { useContext, useState } from "react";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { UserContext } from "./stateProvider";
 import { auth, storage } from "./config/firebaseconfig";
+import "./Navbar.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
-
-export default function Navbar() {
-  const classes = useStyles();
+function Navbar() {
   const user = useContext(UserContext);
   const [imgSrc, setimgSrc] = useState("");
 
@@ -44,38 +27,48 @@ export default function Navbar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Link to="/">
-            <Typography variant="h5" className={classes.title}>
-              "Todo app"
-            </Typography>
-          </Link>
-          <div>
-            {user ? (
-              <>
-                <img src={imgSrc} alt={"profile"} width="50" height="50" />
-                <Button onClick={handleAuthenticaton} color="inherit">
-                  Logout
-                </Button>
-                <Link to="/todo">
-                  <Button color="inherit">Todo</Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button color="inherit">Login</Button>
-                </Link>
-                <Link to="/signup">
-                  <Button color="inherit">SignUp</Button>
-                </Link>
-              </>
-            )}
+    <header className="header">
+      <Link to="/">
+        <h1 className="header__logo">Todo Logo</h1>
+      </Link>
+
+      <div className="header__nav">
+        <Link to="/login">
+          <div onClick={handleAuthenticaton} className="header__option">
+            <span className="header__optionLineOne">Hello,</span>
+            <span className="header__optionLineTwo">
+              {user ? "Sign Out" : "Sign In"}
+            </span>
           </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+        </Link>
+        {user ? (
+          <Link to="/todo">
+            <div className="header__option">
+              <span className="header__optionLineOne">Your</span>
+              <span className="header__optionLineTwo">Todo</span>
+            </div>
+            <img
+              src={
+                imgSrc
+                  ? imgSrc
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              }
+              alt="profile-img"
+              width="50px"
+              height="50px"
+            />
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <div className="header__option">
+              <span className="header__optionLineOne">New User?</span>
+              <span className="header__optionLineTwo">SignUp</span>
+            </div>
+          </Link>
+        )}
+      </div>
+    </header>
   );
 }
+
+export default Navbar;

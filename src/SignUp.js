@@ -32,7 +32,7 @@ function SignUp() {
                 alert("successfully uploaded");
               })
               .catch((error) => {
-                alert(error.message);
+                console.log(error.message);
               });
             history.push("/");
           }
