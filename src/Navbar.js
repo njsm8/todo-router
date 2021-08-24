@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles, withTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { UserContext } from "./stateProvider";
-import { auth } from "./config/firebaseconfig";
+import { auth, storage } from "./config/firebaseconfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +23,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const user = useContext(UserContext);
+  const [imgSrc, setimgSrc] = useState("");
+
+  auth.onAuthStateChanged((authUser) => {
+    if (authUser) {
+      storage
+        .ref("users/" + authUser.uid + "/profile.jpg")
+        .getDownloadURL()
+        .then((imgUrl) => {
+          setimgSrc(imgUrl);
+        })
+        .catch((error) => alert(error.message));
+    }
+  });
 
   const handleAuthenticaton = () => {
     if (user) {
@@ -36,12 +49,13 @@ export default function Navbar() {
         <Toolbar>
           <Link to="/">
             <Typography variant="h5" className={classes.title}>
-              Todo App
+              "Todo app"
             </Typography>
           </Link>
           <div>
             {user ? (
               <>
+                <img src={imgSrc} alt={"profile"} width="50" height="50" />
                 <Button onClick={handleAuthenticaton} color="inherit">
                   Logout
                 </Button>

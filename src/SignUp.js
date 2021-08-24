@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { auth } from "./config/firebaseconfig";
+import { auth, storage } from "./config/firebaseconfig";
 import { UserContext } from "./stateProvider";
 
 import "./Login.css";
@@ -10,6 +10,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setcheckPassword] = useState("");
+  let file = {};
   const user = useContext(UserContext);
 
   const register = (e) => {
@@ -24,12 +25,25 @@ function SignUp() {
         .then((auth) => {
           console.log(auth);
           if (auth) {
+            storage
+              .ref("users/" + auth.user.uid + "/profile.jpg")
+              .put(file)
+              .then(function () {
+                alert("successfully uploaded");
+              })
+              .catch((error) => {
+                alert(error.message);
+              });
             history.push("/");
           }
         })
         .catch((error) => alert(error.message));
     }
   };
+
+  function changeHandler(e) {
+    file = e.target.files[0];
+  }
 
   return (
     <div className="login">
@@ -59,6 +73,9 @@ function SignUp() {
               value={checkPassword}
               onChange={(e) => setcheckPassword(e.target.value)}
             />
+
+            <h5>Choose a profile picture</h5>
+            <input type="file" onChange={changeHandler} />
 
             <button className="login__registerButton" onClick={register}>
               {" "}
