@@ -1,8 +1,8 @@
 import { Button, ListItem, ListItemText } from "@material-ui/core";
 import React, { useContext } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { db } from "./config/firebaseconfig";
-import { UserContext } from "./stateProvider";
+import { db } from "../../config/firebaseconfig";
+import { UserContext } from "../../config/stateProvider";
 
 export default function TodoListItem({ todo, inprogress, id }) {
   const user = useContext(UserContext);

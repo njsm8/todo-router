@@ -1,10 +1,10 @@
 import { Button, TextField } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
-import { db } from "./config/firebaseconfig";
+import { db } from "../../config/firebaseconfig";
 
 import firebase from "firebase";
 import TodoListItem from "./Todo";
-import { UserContext } from "./stateProvider";
+import { UserContext } from "../../config/stateProvider";
 
 function TodoHome() {
   const [todos, settodos] = useState([]);

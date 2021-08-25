@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "./stateProvider";
-import { auth, storage } from "./config/firebaseconfig";
+import { UserContext } from "../../config/stateProvider";
+import { auth, storage } from "../../config/firebaseconfig";
 import "./Navbar.css";
 
 function Navbar() {

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { auth, storage } from "./config/firebaseconfig";
-import { UserContext } from "./stateProvider";
+import { auth, storage } from "../../config/firebaseconfig";
+import { UserContext } from "../../config/stateProvider";
 
 import "./Login.css";
 

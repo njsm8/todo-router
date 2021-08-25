@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "./stateProvider";
+import { UserContext } from "../../config/stateProvider";
 
 function HomePage() {
   const user = useContext(UserContext);
